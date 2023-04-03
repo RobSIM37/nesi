@@ -1,12 +1,10 @@
-import nesiLogo from '../src/resources/nesi.png';
-import './App.css';
+import React from "react";
 
-function App() {
-  return (
-    <div className="App">
-      <img src={nesiLogo} alt="Nesi Logo"></img>
-    </div>
-  );
+import LandingPage from "./components/pages/LandingPage";
+const App = () => {
+    return (
+        <LandingPage/>
+    )
 }
 
 export default App;
