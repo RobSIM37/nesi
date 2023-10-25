@@ -1,6 +1,6 @@
 import React from "react";
 
-import LandingPage from "./components/pages/LandingPage";
+import LandingPage from "../src/pages/LandingPage";
 const App = () => {
     return (
         <LandingPage/>

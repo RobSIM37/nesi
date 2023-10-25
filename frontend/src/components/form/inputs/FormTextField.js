@@ -1,18 +1,19 @@
-import { Stack, TextField, Typography, Box } from "@mui/material"
+import { TextField } from "@mui/material"
 
 const FormTextField = (props) => {
 
     return (
-        <Stack direction={"row"} alignItems={"baseline"} p={1}>
-            <Box width={180}>
-                <Typography>{props.label}</Typography>
-            </Box>
-            <TextField
-                type={props.type || "string"}
-                value={props.form.data}
-                onChange={(e)=>{props.form.reportChange(props.dataKey, e.target.value, props.min, props.max)}}
-            />
-        </Stack>
+        <TextField
+            type={props.type || "string"}
+            label={props.label}
+            value={props.form.data}
+            error={props.form.errorMessage !== ""}
+            helperText={props.form.errorMessage}
+            required={props.required}
+            onChange={(e)=>{props.form.reportChange(props.dataKey, e.target.value, props.min, props.max)}}
+            onBlur={(e)=>{props.form.hasBeenTouched(props.dataKey, e.target.value)}}
+            fullWidth={true}
+        />
     )
 }
 
