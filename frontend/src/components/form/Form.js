@@ -14,7 +14,12 @@ const Form = (props) => {
         const mappedInputs = props.inputs.map(input=>{
             switch (input.type) {
                 case "text":
-                    return <FormTextField key={Math.random()} dataKey={input.dataKey} label={input.label}/>
+                    return <FormTextField
+                                key={Math.random()}
+                                dataKey={input.dataKey}
+                                label={input.label}
+                                required={input.required}
+                            />
                 case "number":
                     return <FormTextField
                                 key={Math.random()}
@@ -23,6 +28,15 @@ const Form = (props) => {
                                 label={input.label}
                                 min={input.min}
                                 max={input.max}
+                                required={input.required}
+                            />
+                case "password":
+                    return <FormTextField
+                                key={Math.random()}
+                                type={"password"}
+                                dataKey={input.dataKey}
+                                label={input.label}
+                                required={input.required}
                             />
                 case "checkbox":
                     return <FormCheckBox key={Math.random()} dataKey={input.dataKey} label={input.label}/>
@@ -36,7 +50,7 @@ const Form = (props) => {
                 case "statement":
                     return <FormStatement key={Math.random()} statement={input.statement} width={props.width || 350}/>
                 default:
-                    return <div key={Math.random()} />
+                    return <div key={Math.random()}/>
             }
         })
         setInputs(mappedInputs);
@@ -46,6 +60,7 @@ const Form = (props) => {
         <FormStateManagement
             onSubmit={props.onSubmit}
             inputs={props.inputs}
+            width={props.width}
         >
             {inputs}
         </FormStateManagement>
