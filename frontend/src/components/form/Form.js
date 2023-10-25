@@ -1,6 +1,6 @@
 import FormStateManagement from "./FormStateManagement"
 import FormTextField from "./inputs/FormTextField"
-import FormSubmitButton from "./inputs/FormSubmitButton"
+import FormButton from "./inputs/FormButton"
 import { useEffect, useState } from "react"
 import FormCheckBox from "./inputs/FormCheckBox"
 import FormStatement from "./inputs/FormStatement"
@@ -45,8 +45,8 @@ const Form = (props) => {
                         choices={input.choices}
                         width={props.width || 350}
                     />
-                case "submit":
-                    return <FormSubmitButton key={Math.random()}/>
+                case "button":
+                    return <FormButton text={input.text} key={Math.random()}/>
                 case "statement":
                     return <FormStatement key={Math.random()} statement={input.statement} width={props.width || 350}/>
                 default:

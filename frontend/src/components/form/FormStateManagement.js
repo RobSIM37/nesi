@@ -60,9 +60,13 @@ const FormStateManagement = (props) => {
         }
         const updatedData = {...formData};
         updatedData[dataKey].value = containedValue;
-        updatedData[dataKey].errorMessage = generateErrorMessage(
+        const currentErrorMessage = generateErrorMessage(
             containedValue, getInput(dataKey).validationFunctions
         )
+        updatedData[dataKey].errorMessage = currentErrorMessage;
+        if (currentErrorMessage === "") {
+            updatedData[dataKey].touched = true;
+        }
         setFormData(()=>updatedData);
     }
 
@@ -91,7 +95,7 @@ const FormStateManagement = (props) => {
                         reportChange:reportChange,
                         hasBeenTouched:hasBeenTouched
                     }});
-                case "FormSubmitButton":
+                case "FormButton":
                     return React.cloneElement(child, {form:{submitForm:submitButtonClickEventHandler, disabled: !isFormValid()}});
                 default:
                     return child
