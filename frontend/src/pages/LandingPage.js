@@ -1,4 +1,3 @@
-
 import { Typography, Grid } from "@mui/material";
 import nesi from "../resources/nesi.png";
 import Form from "../components/form/Form";
