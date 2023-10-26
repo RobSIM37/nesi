@@ -13,6 +13,7 @@ const loginRegisterCtrl = require("./controllers/loginRegisterController");
 
 server.post("/login", loginRegisterCtrl.login);
 server.post("/register", loginRegisterCtrl.register);
+server.post("/authLogin", loginRegisterCtrl.auth);
 
 server.get("/messages", ()=>{}) // get all pending messages
 server.post("/messages", ()=>{}) // send a message

@@ -17,5 +17,17 @@ module.exports = {
         } finally {
             await client.close()
         }
+    },
+    insert: async (collection, obj) => {
+        const client = newConnection();
+        try {
+            await client.connect();
+            const insertResult = await client.db("nesidb").collection(collection).insertOne(obj);
+            return insertResult;
+        } catch(err) {
+            console.log("err in MDB insert:", err);
+        } finally {
+            await client.close()
+        }
     }
 }

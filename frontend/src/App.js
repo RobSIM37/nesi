@@ -14,23 +14,28 @@ const App = () => {
     const navigate = useNavigate();
     const [user, setUser] = useState(null);
 
+    const initNewUser = (data) => {
+        const newUser = new User(data);
+        localStorage.setItem("nesiAuthToken", data.authToken);
+        newUser.assignSetStateFunction(setUser);
+        newUser.updateState();
+        navigate("/dashboard");
+    }
+
     useEffect(()=>{
         const authToken = localStorage.getItem("nesiAuthToken");
         if (authToken) {
             axios
                 .post(`${currentUrl()}/authLogin`,{authToken})
-                .then((res)=>{
-                    const newUser = new User(res.data);
-                    newUser.assignSetStateFunction(setUser);
-                    newUser.updateState();
-                    navigate("/dashboard");
+                .then(res=>{
+                    initNewUser(res.data);
                 })
         }
     })
 
     return (
         <Routes>
-            <Route path="/" element={<LandingPage user={user}/>}/>
+            <Route path="/" element={<LandingPage user={user} initNewUser={initNewUser}/>}/>
             {user &&
             <>
                 <Route path="/dashboard" element={<Dashboard user={user}/>}/>
