@@ -5,6 +5,9 @@ module.exports = {
 
     },
     register: async (req, res) => {
+        
+    },
+    auth: async (req, res) => {
 
     }
 }
