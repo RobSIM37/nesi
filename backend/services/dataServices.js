@@ -10,8 +10,7 @@ module.exports = {
         const client = newConnection();
         try {
             await client.connect();
-            const data = await client.db("nesidb").collection(collection).find(filterObj).toArray();
-            return data;
+            return await client.db("nesiDB").collection(collection).find(filterObj).toArray();
         } catch(err) {
             console.log("err in MDB get:", err);
         } finally {
@@ -22,7 +21,7 @@ module.exports = {
         const client = newConnection();
         try {
             await client.connect();
-            const insertResult = await client.db("nesidb").collection(collection).insertOne(obj);
+            const insertResult = await client.db("nesiDB").collection(collection).insertOne(obj);
             return insertResult;
         } catch(err) {
             console.log("err in MDB insert:", err);
