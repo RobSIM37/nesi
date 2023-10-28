@@ -60,8 +60,8 @@ const LandingPage = () => {
                             <Stack alignItems={"center"}>
                                 <Typography>Login</Typography>
                                 <Form
-                                    width={290}
-                                    inputs={loginInputs}
+                                    width={400}
+                                    inputs={[...loginInputs,{ type: "button", text: "Login" }]}
                                     onSubmit={formSubmitHandlerFactory("login")}
                                 />     
                             </Stack>
@@ -70,8 +70,8 @@ const LandingPage = () => {
                             <Stack alignItems={"center"}>
                                 <Typography>Registration</Typography>
                                 <Form
-                                    width={290}
-                                    inputs={loginInputs}
+                                    width={400}
+                                    inputs={[...loginInputs,{ type: "button", text: "Register" }]}
                                     onSubmit={formSubmitHandlerFactory("registration")}
                                 />     
                             </Stack>

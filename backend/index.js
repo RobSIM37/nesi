@@ -10,10 +10,12 @@ server.use(bodyParser.urlencoded({ extended: true }));
 server.use(cors());
 
 const loginRegisterCtrl = require("./controllers/loginRegisterController");
+const authTokenMid = require("./middleware/authTokenMiddleware");
 
 server.post("/login", loginRegisterCtrl.login);
 server.post("/register", loginRegisterCtrl.register);
-server.post("/authLogin", loginRegisterCtrl.auth);
+
+server.use(authTokenMid.validateToken);
 
 server.get("/messages", ()=>{}) // get all pending messages
 server.post("/messages", ()=>{}) // send a message

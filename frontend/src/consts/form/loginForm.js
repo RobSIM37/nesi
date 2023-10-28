@@ -19,6 +19,5 @@ export const loginInputs = [
             mustContainCharInRangeFactory("0", "9", "Password must contain a number."),
             containsCharacterInSetFactory(false, invalidPasswordChars, `Password may not contain any of the following symbols: ${invalidPasswordChars.join("\n")}`)
         ]
-    },
-    { type: "button", text: "login" }
+    }
 ];
