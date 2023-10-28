@@ -1,4 +1,5 @@
 const jwt = require("jsonwebtoken");
+const jwtServ = require("../services/jwtServices");
 const tokenTimeOut = 1800000 //30 minutes;
 
 module.exports = {
@@ -10,8 +11,12 @@ module.exports = {
             if (err) res.sendStatus(403);
             const timeSinceIssue = Data.now() - tokenPayload.iat;
             if (timeSinceIssue > tokenTimeOut) res.sendStatus(403);
-            req.tokenPayload = tokenPayload;
+            req.userId = tokenPayload._id;
             next();
         });
+    },
+    generateResponseToken: (req,res) => {
+        res.token = jwt.generate(res._id);
+        res.status(200).send();
     }
 }
