@@ -17,6 +17,8 @@ server.post("/register", loginRegisterCtrl.register);
 
 server.use(authTokenMid.validateToken);
 
+server.get("/refresh-token", (req,res,next) => next());
+
 server.get("/messages", ()=>{}) // get all pending messages
 server.post("/messages", ()=>{}) // send a message
 
