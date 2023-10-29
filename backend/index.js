@@ -30,4 +30,6 @@ server.post("/form/data", ()=>{}) // post form data
 server.get("/friends", ()=>{}) // get user friends list
 server.post("/friends", ()=>{}) // update user friends list
 
+server.use(authTokenMid.generateResponseToken);
+
 server.listen(process.env.PORT, () => {console.log(`Server up and listening on port ${process.env.PORT}`);});

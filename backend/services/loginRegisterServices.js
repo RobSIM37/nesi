@@ -1,16 +1,25 @@
 const dataServ = require("./dataServices");
 const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+const jwtServ = require("./jwtServices");
 
 module.exports = {
     login: async (credentials) => {
-        const hashForGivenUserName = await dataServ.get("credentials", {userName: credentials.userName});
-        
+        const matchingUserNames = await dataServ.get("credentials", {userName: credentials.userName});
+        if (!matchingUserNames[0]) return null;
+        const hash = matchingUserNames[0].hash;
+        if (!hash) return null;
+        const valid = await bcrypt.compare(credentials.password, hash);
+        if (!valid) return null;
+        const users = await dataServ.get("users", {userName: credentials.userName});
+        const user = users[0];
+        if (!user) return null;
+        user.token = jwtServ.generateToken(user._id);
+        return user;
     },
     register: async (credentials) => {
         const existingUsers = await dataServ.get("credentials", {userName: credentials.userName});
-        if (existingUsers[0]) return false;
-        await bcrypt.hash(credentials.password, 10, async (err, hash) => {
+        if (existingUsers[0]) return null;
+        bcrypt.hash(credentials.password, 10, async (err, hash) => {
             if (!err) {
                 await dataServ.insert("credentials",
                 {
@@ -19,8 +28,9 @@ module.exports = {
                 })
             }
         });
-        const insertResult = await dataServ.insert("users",{userName:credentials.userName, plans:[], friends:[]})
-        const token = jwt.sign({_id: insertResult.insertedId, iat:Date.now()}, process.env.JWT_ACCESS_TOKEN_SECRET)
-        return token;
+        const user = {userName:credentials.userName, plans:[], friends:[]}
+        const insertResult = await dataServ.insert("users", user);
+        user.token = jwtServ.generateToken(insertResult._id);
+        return user;
     }
 }
