@@ -13,7 +13,7 @@ module.exports = {
         const users = await dataServ.get("users", {userName: credentials.userName});
         const user = users[0];
         if (!user) return null;
-        user.token = jwtServ.generate(user._id);
+        user.token = jwtServ.generateToken(user._id);
         return user;
     },
     register: async (credentials) => {
@@ -29,8 +29,8 @@ module.exports = {
             }
         });
         const user = {userName:credentials.userName, plans:[], friends:[]}
-        const insertResult = await dataServ.insert("users", newUser);
-        user.token = jwtServ.generate(insertResult._id);
+        const insertResult = await dataServ.insert("users", user);
+        user.token = jwtServ.generateToken(insertResult._id);
         return user;
     }
 }
