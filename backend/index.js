@@ -17,7 +17,7 @@ server.post("/register", loginRegisterCtrl.register);
 
 server.use(authTokenMid.validateToken);
 
-server.get("/refresh-token", (req,res,next) => next());
+server.post("/refresh-token", loginRegisterCtrl.refreshAuthToken);
 
 server.get("/messages", ()=>{}) // get all pending messages
 server.post("/messages", ()=>{}) // send a message
@@ -31,7 +31,5 @@ server.post("/form/data", ()=>{}) // post form data
 
 server.get("/friends", ()=>{}) // get user friends list
 server.post("/friends", ()=>{}) // update user friends list
-
-server.use(authTokenMid.generateResponseToken);
 
 server.listen(process.env.PORT, () => {console.log(`Server up and listening on port ${process.env.PORT}`);});
