@@ -5,20 +5,20 @@ const jwtServ = require("./jwtServices");
 module.exports = {
     login: async (credentials) => {
         const matchingUserNames = await dataServ.get("credentials", {userName: credentials.userName});
-        if (!matchingUserNames[0]) return false;
+        if (!matchingUserNames[0]) return null;
         const hash = matchingUserNames[0].hash;
-        if (!hash) return false;
+        if (!hash) return null;
         const valid = await bcrypt.compare(credentials.password, hash);
-        if (!valid) return false;
+        if (!valid) return null;
         const users = await dataServ.get("users", {userName: credentials.userName});
         const user = users[0];
-        if (!user) return false;
+        if (!user) return null;
         user.token = jwtServ.generate(user._id);
         return user;
     },
     register: async (credentials) => {
         const existingUsers = await dataServ.get("credentials", {userName: credentials.userName});
-        if (existingUsers[0]) return false;
+        if (existingUsers[0]) return null;
         bcrypt.hash(credentials.password, 10, async (err, hash) => {
             if (!err) {
                 await dataServ.insert("credentials",
