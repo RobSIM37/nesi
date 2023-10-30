@@ -32,6 +32,7 @@ const App = () => {
                 .then(res=>{
                     initNewUser(res.data);
                 })
+                .catch(err=>console.log(err));
         }
     })
 

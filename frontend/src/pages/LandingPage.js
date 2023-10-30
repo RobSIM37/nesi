@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { Typography, Grid, Stack, Box, Tab } from "@mui/material";
-import { TabContext, TabList, TabPanel } from "@mui/lab";
+import { Typography, Stack, Box, Tab } from "@mui/material";
+import { TabContext, TabList } from "@mui/lab";
 import axios from "axios";
 import { currentUrl } from "../consts/url";
 import nesi from "../resources/nesi.png";
 import Form from "../components/form/Form";
-import { loginInputs } from "../consts/form/loginForm"
+import { loginInputs } from "../consts/form/loginForm";
+import GreyTabPanel from "../components/GreyTabPanel";
 
 const LandingPage = (props) => {
 
@@ -18,7 +19,6 @@ const LandingPage = (props) => {
 
     const formSubmitHandlerFactory = (endpoint) => {
         return (data) => {
-            console.log("submitted:", endpoint, data)
             axios
                 .post(`${currentUrl()}/${endpoint}`, {userName:data.userName.value, password:data.password.value})
                 .then(res=>{
@@ -33,55 +33,46 @@ const LandingPage = (props) => {
     }
 
     return (
-        <Grid container alignItems={"center"} rowSpacing={3}>
-            <Grid item xs={1}>
-                <Box p={1}>
+        <Stack height={"100%"}>
+            <Stack direction="row" alignItems={"center"} justifyContent={"space-between"}>
+                <Box p={1} width={200}>
                     <img src={nesi} alt="Nesi Logo"></img>
                 </Box>
-            </Grid>
-            <Grid item xs>
                 <Typography align="center" variant="h1">Welcome to NESI!</Typography>
-            </Grid>
-            <Grid item xs={1}></Grid>
-            <Grid item xs={12}>
-                <Stack>
-                    {loginRegError &&
-                    <Box p={1}>
-                        <Typography color="warning.main">{loginRegError}</Typography>
+                <Box p={1} width={200}></Box>
+            </Stack>
+            <Stack height={"100%"}>
+                {loginRegError &&
+                <Box p={1}>
+                    <Typography color="warning.main">{loginRegError}</Typography>
+                </Box>
+                }
+                <TabContext value={currentTab} height={"100%"}>
+                    <Box sx={{ borderBottom: 1, borderColor: "primary.main"}}>
+                        <TabList aria-label="Login or Registration" onChange={handleTabChange}>
+                            <Tab label="Login" value="login" />
+                            <Tab label="Registration" value="register" />
+                        </TabList>
                     </Box>
-                    }
-                    <TabContext value={currentTab}>
-                        <Box sx={{ borderBottom: 1, borderColor: "primary.main"}}>
-                            <TabList aria-label="Login or Registration" onChange={handleTabChange}>
-                                <Tab label="Login" value="login" />
-                                <Tab label="Registration" value="registration" />
-                            </TabList>
-                        </Box>
-                        <TabPanel value="login">
-                            <Stack alignItems={"center"}>
-                                <Typography>Login</Typography>
-                                <Form
-                                    width={400}
-                                    inputs={[...loginInputs,{ type: "button", text: "Login" }]}
-                                    onSubmit={formSubmitHandlerFactory("login")}
-                                />     
-                            </Stack>
-                        </TabPanel>
-                        <TabPanel value="registration">
-                            <Stack alignItems={"center"}>
-                                <Typography>Registration</Typography>
-                                <Form
-                                    width={400}
-                                    inputs={[...loginInputs,{ type: "button", text: "Register" }]}
-                                    onSubmit={formSubmitHandlerFactory("register")}
-                                />     
-                            </Stack>
-                            
-                        </TabPanel>
-                    </TabContext>
-                </Stack>
-            </Grid>
-        </Grid>
+                    <GreyTabPanel value="login">
+                        <Typography>Login</Typography>
+                        <Form
+                            width={400}
+                            inputs={[...loginInputs,{ type: "button", text: "Login" }]}
+                            onSubmit={formSubmitHandlerFactory("login")}
+                        />  
+                    </GreyTabPanel>
+                    <GreyTabPanel value="register">
+                        <Typography>Register</Typography>
+                        <Form
+                            width={400}
+                            inputs={[...loginInputs,{ type: "button", text: "Register" }]}
+                            onSubmit={formSubmitHandlerFactory("register")}
+                        />
+                    </GreyTabPanel>
+                </TabContext>
+            </Stack>
+        </Stack>
     )
 }
 
