@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Typography, Grid, useThemeProps, Stack, Box, Tab } from "@mui/material";
+import { Typography, Grid, Stack, Box, Tab } from "@mui/material";
 import { TabContext, TabList, TabPanel } from "@mui/lab";
 import axios from "axios";
 import { currentUrl } from "../consts/url";
@@ -7,7 +7,7 @@ import nesi from "../resources/nesi.png";
 import Form from "../components/form/Form";
 import { loginInputs } from "../consts/form/loginForm"
 
-const LandingPage = () => {
+const LandingPage = (props) => {
 
     const [loginRegError, setLoginRegError] = useState(null);
     const [currentTab, setCurrentTab] = useState("login");
@@ -23,10 +23,11 @@ const LandingPage = () => {
                 .post(`${currentUrl()}/${endpoint}`, {userName:data.userName.value, password:data.password.value})
                 .then(res=>{
                     setLoginRegError(null);
-                    useThemeProps.initNewUser(res.data);
+                    sessionStorage.setItem("nesiAuthPassword",data.password)
+                    props.initNewUser(res.data);
                 })
                 .catch(err=>{
-                    setLoginRegError(err.message);
+                    setLoginRegError("There was an issue with the provided user name & password.");
                 })
         }
     }
@@ -72,13 +73,12 @@ const LandingPage = () => {
                                 <Form
                                     width={400}
                                     inputs={[...loginInputs,{ type: "button", text: "Register" }]}
-                                    onSubmit={formSubmitHandlerFactory("registration")}
+                                    onSubmit={formSubmitHandlerFactory("register")}
                                 />     
                             </Stack>
                             
                         </TabPanel>
                     </TabContext>
-                    
                 </Stack>
             </Grid>
         </Grid>

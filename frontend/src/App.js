@@ -14,19 +14,21 @@ const App = () => {
     const navigate = useNavigate();
     const [user, setUser] = useState(null);
 
+    axios.defaults.headers.common['Authorization'] = `Bearer ${sessionStorage.getItem('nesiAuthToken')}`;
+
     const initNewUser = (data) => {
         const newUser = new User(data);
-        localStorage.setItem("nesiAuthToken", data.authToken);
+        sessionStorage.setItem("nesiAuthToken", data.token);
         newUser.assignSetStateFunction(setUser);
         newUser.updateState();
         navigate("/dashboard");
     }
 
     useEffect(()=>{
-        const authToken = localStorage.getItem("nesiAuthToken");
-        if (authToken) {
+        const password = localStorage.getItem("nesiAuthPassword");
+        if (password) {
             axios
-                .post(`${currentUrl()}/authLogin`,{authToken})
+                .post(`${currentUrl()}/refresh-token`,{password})
                 .then(res=>{
                     initNewUser(res.data);
                 })

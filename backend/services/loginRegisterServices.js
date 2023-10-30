@@ -10,18 +10,16 @@ const validateCredentials = async (credentials) => {
     if (!hash) return null;
     const valid = await bcrypt.compare(credentials.password, hash);
     if (!valid) return null;
-    return true;
+    const users = await dataServ.get("users", {userName: credentials.userName});
+    const user = users[0];
+    if (!user) return null;
+    user.token = jwtServ.generateToken(user._id);
+    return user;
 }
 
 module.exports = {
     login: async (credentials) => {
-        const valid = await validateCredentials(credentials);
-        if (!valid) return null;
-        const users = await dataServ.get("users", {userName: credentials.userName});
-        const user = users[0];
-        if (!user) return null;
-        user.token = jwtServ.generateToken(user._id);
-        return user;
+        return await validateCredentials(credentials);
     },
     register: async (credentials) => {
         const existingUsers = await dataServ.get("credentials", {userName: credentials.userName});
@@ -45,9 +43,6 @@ module.exports = {
         if (!matchingUserObjects[0]) return null
         const userName = matchingUserObjects[0].userName;
         if (!userName) return null;
-        const result = await validateCredentials({userName, password:credentials.password})
-        if (!result) return null;
-        const token = jwtServ.generateToken(credentials._id);
-        return {token};
+        return await validateCredentials({userName, password:credentials.password});
     }
 }
