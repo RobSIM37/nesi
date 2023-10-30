@@ -43,9 +43,6 @@ module.exports = {
         if (!matchingUserObjects[0]) return null
         const userName = matchingUserObjects[0].userName;
         if (!userName) return null;
-        const result = await validateCredentials({userName, password:credentials.password})
-        if (!result) return null;
-        if (!result.token) return null;
-        return {token: result.token};
+        return await validateCredentials({userName, password:credentials.password});
     }
 }
