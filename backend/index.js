@@ -10,6 +10,7 @@ server.use(bodyParser.urlencoded({ extended: true }));
 server.use(cors());
 
 const loginRegisterCtrl = require("./controllers/loginRegisterController");
+const friendCtrl = require("./controllers/friendController");
 const authTokenMid = require("./middleware/authTokenMiddleware");
 
 server.post("/login", loginRegisterCtrl.login);
@@ -29,7 +30,8 @@ server.get("/form", ()=>{}) // get a form
 server.post("/form", ()=>{}) // add/update a form
 server.post("/form/data", ()=>{}) // post form data
 
-server.get("/friends", ()=>{}) // get user friends list
+server.get("/friends", friendCtrl.getFriends);
+server.get("/friend/:name", friendCtrl.getFriend);
 server.post("/friends", ()=>{}) // update user friends list
 
 server.listen(process.env.PORT, () => {console.log(`Server up and listening on port ${process.env.PORT}`);});

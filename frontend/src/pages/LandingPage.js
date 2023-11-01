@@ -51,7 +51,7 @@ const LandingPage = (props) => {
                     <Box sx={{ borderBottom: 1, borderColor: "primary.main"}}>
                         <TabList aria-label="Login or Registration" onChange={handleTabChange}>
                             <Tab label="Login" value="login" />
-                            <Tab label="Registration" value="register" />
+                            <Tab label="Create an Account" value="register" />
                         </TabList>
                     </Box>
                     <GreyTabPanel value="login">
@@ -63,10 +63,10 @@ const LandingPage = (props) => {
                         />  
                     </GreyTabPanel>
                     <GreyTabPanel value="register">
-                        <Typography>Register</Typography>
+                        <Typography>Create an Account</Typography>
                         <Form
                             width={400}
-                            inputs={[...loginInputs,{ type: "button", text: "Register" }]}
+                            inputs={[...loginInputs,{ type: "button", text: "Create" }]}
                             onSubmit={formSubmitHandlerFactory("register")}
                         />
                     </GreyTabPanel>
