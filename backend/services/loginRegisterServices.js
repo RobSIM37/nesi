@@ -33,7 +33,7 @@ module.exports = {
                 })
             }
         });
-        const user = {userName:credentials.userName, plans:[], friends:[]}
+        const user = {userName:credentials.userName, plans:[], friends:[], messages:[]}
         const insertResult = await dataServ.insert("users", user);
         user.token = jwtServ.generateToken(insertResult._id);
         return user;

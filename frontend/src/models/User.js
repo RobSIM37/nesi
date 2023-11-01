@@ -1,3 +1,6 @@
+import axios from "axios";
+import { currentUrl } from "../consts/url";
+
 class User {
     #id
     #setState
@@ -18,7 +21,11 @@ class User {
     updateState(){
         this.#setState(this);
     }
+    async searchUsersForName(name){
+        const friendData = await axios.get(`${currentUrl()}/friend/${name}`).catch(err=>{return err});
+        if (!friendData.status === 200) return null;
+        return friendData.data;
+    }
 }
-
 
 export default User;

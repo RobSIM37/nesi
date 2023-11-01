@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Typography, Stack, Box, Tab } from "@mui/material";
 import { TabContext, TabList } from "@mui/lab";
-import FriendsManager from "../components/dashbaord/friends/FriendsManager";
+import FriendsManager from "../components/dashboard/friends/FriendsManager";
 import GreyTabPanel from "../components/GreyTabPanel";
 
 const Dashboard = (props) => {
