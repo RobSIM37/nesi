@@ -8,7 +8,7 @@ const yellow = "#C6CF30";
 export default createTheme({
     
     palette:{
-        primary: {main: green},
+        primary: {main: green, contrastText: "#fff"},
         secondary: {main: blue},
         error: {main: red},
         info: {main: yellow},

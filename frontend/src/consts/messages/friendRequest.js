@@ -1,0 +1,1 @@
+export const friendRequestMessage = (userName) => `${userName} wants to be your friend. This will allow you to message them, use them for a measure of accountability while you persue your goals, and share achievements with them (and vice versa). You may remove them as friends if you choose to do so in the future. Be advised, they WILL get a message if you do remove them.`

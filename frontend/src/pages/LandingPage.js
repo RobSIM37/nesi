@@ -23,7 +23,7 @@ const LandingPage = (props) => {
                 .post(`${currentUrl()}/${endpoint}`, {userName:data.userName.value, password:data.password.value})
                 .then(res=>{
                     setLoginRegError(null);
-                    sessionStorage.setItem("nesiAuthPassword",data.password)
+                    sessionStorage.setItem("nesiAuthPassword",data.password);
                     props.initNewUser(res.data);
                 })
                 .catch(err=>{

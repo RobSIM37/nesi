@@ -1,12 +1,28 @@
 const friendsServ = require("../services/friendServices");
 
 module.exports = {
-    getFriends: async (req, res) => {
+    getFriends: async (req, res, next) => {
         const result = await friendsServ.getFriends(req._id);
-        result ? res.status(200).send(result) : res.status(500).send("error with friends get request");
+        if (!result) res.status(500).send("error with friends get request");
+        res.body.payload = result;
+        next();
     },
-    getFriend: async (req, res) => {
+    getFriend: async (req, res, next) => {
         const result = await friendsServ.getFriend(req.params.name);
-        result ? res.status(200).send(result) : res.status(500).send("error with friend get request");
+        if (!result) res.status(500).send("error with friends get request");
+        res.body.payload = result;
+        next();
+    },
+    addFriend: async (req, res, next) => {
+        const result = await friendsServ.addFriend(req.body);
+        if (!result) res.status(500).send("error with adding friend");
+        res.body.payload = result;
+        next();
+    },
+    deleteFriend: async (req, res, next) => {
+        const result = await friendsServ.deleteFriend(req.params.id);
+        if (!result) res.status(500).send("error deleting friend");
+        res.body.payload = result;
+        next();
     }
 }

@@ -3,6 +3,8 @@ import { Typography, Stack, Box, Tab } from "@mui/material";
 import { TabContext, TabList } from "@mui/lab";
 import FriendsManager from "../components/dashboard/friends/FriendsManager";
 import GreyTabPanel from "../components/GreyTabPanel";
+import UnderlinedBox from "../components/UnderlinedBox";
+import MessageLayout from "../components/dashboard/messages/MessageLayout";
 
 const Dashboard = (props) => {
 
@@ -17,7 +19,7 @@ const Dashboard = (props) => {
                 <Typography variant="h6">NESI</Typography>
             </Box>
             <TabContext value={currentTab}>
-                <Box sx={{ borderBottom: 1, borderColor: "primary.main"}}>
+                <UnderlinedBox>
                     <TabList aria-label="Dashboard Options" onChange={handleTabChange}>
                         <Tab label="Daily Tasks" value="tasks" />
                         <Tab label="Plans" value="plans" />
@@ -26,7 +28,7 @@ const Dashboard = (props) => {
                         <Tab label="Friends" value="friends" />
                         <Tab label="Messages" value="messages" />
                     </TabList>
-                </Box>
+                </UnderlinedBox>
                 <GreyTabPanel value="tasks">
                     <Typography>Daily Tasks</Typography>
                 </GreyTabPanel>
@@ -43,7 +45,7 @@ const Dashboard = (props) => {
                     <FriendsManager user={props.user}/>   
                 </GreyTabPanel>
                 <GreyTabPanel value="messages">
-                    <Typography>Messages</Typography>   
+                    <MessageLayout user={props.user}/>
                 </GreyTabPanel>
             </TabContext>
         </Stack>

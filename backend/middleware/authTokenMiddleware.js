@@ -11,6 +11,7 @@ module.exports = {
             const timeSinceIssue = Date.now() - tokenPayload.iat;
             if (timeSinceIssue > tokenTimeOut) res.sendStatus(403);
             req._id = tokenPayload._id;
+            res["body"] = {};
             next();
         });
     }

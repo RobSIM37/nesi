@@ -1,4 +1,6 @@
 const dataServ = require("./dataServices");
+const messageServ = require("./messageServices");
+const friendsServ = require("./friendServices");
 const bcrypt = require("bcrypt");
 const jwtServ = require("./jwtServices");
 const { ObjectId } = require("mongodb");
@@ -13,7 +15,9 @@ const validateCredentials = async (credentials) => {
     const users = await dataServ.get("users", {userName: credentials.userName});
     const user = users[0];
     if (!user) return null;
-    user.token = jwtServ.generateToken(user._id);
+    user.messages = await messageServ.getMessages(user._id.toString());
+    user.friends = await friendsServ.getFriends(user._id.toString());
+    user.token = jwtServ.generateToken(user._id.toString());
     return user;
 }
 
@@ -33,9 +37,11 @@ module.exports = {
                 })
             }
         });
-        const user = {userName:credentials.userName, plans:[], friends:[], messages:[]}
+        const user = {userName:credentials.userName, plans:[]}
         const insertResult = await dataServ.insert("users", user);
-        user.token = jwtServ.generateToken(insertResult._id);
+        user.token = jwtServ.generateToken(insertResult.insertedId.toString());
+        user.friends = [];
+        user.messages = [];
         return user;
     },
     refreshAuthToken: async (credentials) => {
