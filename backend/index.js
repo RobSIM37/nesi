@@ -14,15 +14,16 @@ const friendCtrl = require("./controllers/friendController");
 const messageCtrl = require("./controllers/messageController");
 const authTokenMid = require("./middleware/authTokenMiddleware");
 const updateMid = require("./middleware/updateMiddleware")
+const restrictMid = require("./middleware/restrictedActionsMiddleware");
 
 server.post("/login", loginRegisterCtrl.login);
 server.post("/register", loginRegisterCtrl.register);
 
 server.use(authTokenMid.validateToken);
 
-
 server.post("/refresh-token", loginRegisterCtrl.refreshAuthToken);
 
+server.post("/messages", restrictMid.friendRequestAlreadySent)
 server.post("/messages", messageCtrl.sendMessage);
 server.put("/messages/:id", messageCtrl.updateMessage);
 
@@ -36,7 +37,7 @@ server.post("/form/data", ()=>{}) // post form data
 server.get("/friends", friendCtrl.getFriends);
 server.get("/friends/:name", friendCtrl.getFriend);
 server.post("/friends", friendCtrl.addFriend);
-server.delete("/friends/:user-id/:friend-id", friendCtrl.deleteFriend);
+server.delete("/friends/:userId/:id", friendCtrl.deleteFriend);
 
 server.use(updateMid.updateFriendsAndMessages);
 

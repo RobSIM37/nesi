@@ -1,16 +1,20 @@
 import { Box, IconButton, Stack, Typography, Card, Tooltip } from "@mui/material"
 import PersonRemoveIcon from '@mui/icons-material/PersonRemove'
-import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1';
+import PersonAddAlt1Icon from '@mui/icons-material/PersonAddAlt1'
+
 const FriendsLabel = (props) => {
 
     const buttonClickEventHandler = async () => {
         if (props.buttonType === "add") {
-            const results = await props.user.sendFriendRequest(props.friend._id);
+            const results = await props.user.sendFriendRequest(props.relationship.friend._id);
+            console.log("results", results)
             if (results) {
                 props.searchResultMessage({message:"Friend Request Sent.",color:"primary"})
+            } else {
+                props.searchResultMessage({message:"You may send only one request to this user.", color:"error"})
             }
         } else {
-            props.user.removeFriend(props.friend._id)
+            props.user.removeFriend(props.relationship.id)
         }    
     }
 
@@ -19,7 +23,7 @@ const FriendsLabel = (props) => {
             <Card>
                 <Stack direction={"row"} alignItems={"center"} justifyContent={"space-between"}>
                     <Box p={1}>
-                        <Typography>{props.friend.userName}</Typography>
+                        <Typography>{props.relationship.friend.userName}</Typography>
                     </Box>
                     <Tooltip title={props.tooltip} placement="right">
                         <IconButton width={"100%"} onClick={buttonClickEventHandler}>

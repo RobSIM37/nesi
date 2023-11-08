@@ -51,7 +51,7 @@ const FriendSearch = (props) => {
             <FriendsLabel 
                 buttonType="add"
                 user={props.user}
-                friend={newFriend}
+                relationship={{friend:{userName:newFriend.userName, _id:newFriend._id}}}
                 tooltip={"Send Friend Request"}
                 searchResultMessage={searchResultMessage}
                 m={1}

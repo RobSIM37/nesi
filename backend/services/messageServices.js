@@ -10,5 +10,8 @@ module.exports = {
     },
     updateMessageStatus: async (messageId, status) => {
         return await dataServ.update("messages", {"_id": new ObjectId(messageId)}, {$set: {"status": status}});
+    },
+    getPreviousFriendRequest: async (to, from) => {
+        return await dataServ.get("messages", {"to": to, "from": from, "type": "friend_request"});
     }
 }
