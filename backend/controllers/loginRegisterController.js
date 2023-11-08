@@ -11,6 +11,7 @@ module.exports = {
     },
     refreshAuthToken: async (req, res) => {
         const result = await loginRegisterServ.refreshAuthToken({...req.body, _id:req._id});
-        result ? res.status(200).send(result) : res.status(500).send("auth token refresh error");
+        if (!result) res.status(500).send("auth token refresh error");
+        res.staus(200).send(result);
     }
 }

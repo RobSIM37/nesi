@@ -1,17 +1,14 @@
 const dataServ = require("./dataServices");
+const messageServ = require("./messageServices");
 const { ObjectId } = require("mongodb");
 
 module.exports = {
     getFriends: async (userId) => {
-        const matchingUserObjects = await dataServ.get("users", {"_id": new ObjectId(userId)});
-        const user = matchingUserObjects[0];
-        if (!user) return null;
-        const friendsIdArray = user.friends;
-        if (!friendsIdArray) return null;
-        if (friendsIdArray.length === 0) return {friends: []};
-        const friendsArray = await dataServ.get("users", {"_id": {"$in": friendsArray.map(friend=>friend._id)}});
-        if (!friendsArray) return null;
-        return friendsArray;
+        const relationshipArr = await dataServ.get("friends",{"friends.id": userId});
+        if (relationshipArr.length === 0) return [];
+        return relationshipArr.map(relationship=>{
+            return {id:relationship._id,
+                    friend:relationship.friends.filter(friend=>friend.id != userId)[0]}});
     },
     getFriend: async (userName) => {
         const matchingUserObjects = await dataServ.get("users", {"userName": userName});
@@ -19,7 +16,15 @@ module.exports = {
         if (!user) return null;
         return {_id: user._id, userName: user.userName}
     },
-    addUpdateFriends: async (userId, friendsData) => {
-        
+    addFriend: async (friendsData) => {
+        const result = await dataServ.insert("friends", {friends: friendsData.friends});
+        if (!result) return null;
+        await messageServ.updateMessageStatus(friendsData.messageId, "read");
+        return result;
+    },
+    deleteFriend: async (friendsId) => {
+        const result = await dataServ.deleteFriend("friends", {"_id": new ObjectId(friendsId)});
+        if (!result) return null;
+        return result;
     }
 }

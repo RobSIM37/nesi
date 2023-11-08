@@ -28,6 +28,7 @@ const FormStateManagement = (props) => {
 
     const generateErrorMessage = (value, validationFunctionsArr) => {
         const errorMessagesArr = [];
+        if (!validationFunctionsArr) return "";
         validationFunctionsArr.forEach(func=>{
             const error = func(value);
             if (error) {
@@ -89,12 +90,13 @@ const FormStateManagement = (props) => {
                 case "FormTextField":
                 case "FormCheckBox":
                 case "FormRadioGroup":
+                case "FormSelect":
                     return React.cloneElement(child, {form:{
                         data:formData[child.props.dataKey].value,
                         errorMessage:formData[child.props.dataKey].touched ? formData[child.props.dataKey].errorMessage : "",
                         reportChange:reportChange,
                         hasBeenTouched:hasBeenTouched
-                    }});
+                    }})
                 case "FormButton":
                     return React.cloneElement(child, {form:{submitForm:submitButtonClickEventHandler, disabled: !isFormValid()}});
                 default:

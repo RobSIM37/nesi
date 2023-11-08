@@ -1,7 +1,8 @@
+import { useEffect, useState } from "react"
 import FormStateManagement from "./FormStateManagement"
 import FormTextField from "./inputs/FormTextField"
 import FormButton from "./inputs/FormButton"
-import { useEffect, useState } from "react"
+import FormSelect from "./inputs/FormSelect"
 import FormCheckBox from "./inputs/FormCheckBox"
 import FormStatement from "./inputs/FormStatement"
 import FormRadioGroup from "./inputs/FormRadioGroup"
@@ -37,6 +38,15 @@ const Form = (props) => {
                                 dataKey={input.dataKey}
                                 label={input.label}
                                 required={input.required}
+                            />
+                case "select":
+                    return <FormSelect
+                                key={Math.random()}
+                                dataKey={input.dataKey}
+                                default={input.default}
+                                label={input.label}
+                                required={input.required}
+                                menuItems={input.menuItems}
                             />
                 case "checkbox":
                     return <FormCheckBox key={Math.random()} dataKey={input.dataKey} label={input.label}/>

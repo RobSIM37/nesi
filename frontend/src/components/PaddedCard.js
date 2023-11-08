@@ -2,7 +2,7 @@ import { Box, Card } from "@mui/material"
 
 const PaddedCard = (props) => {
     return (
-        <Box p={props.p || 1} width={props.width} m={props.m || 1} label="here">
+        <Box p={props.p || 1} width={props.width} m={props.m || 1}>
             <Card p={props.p || 1}>
                 {props.children}
             </Card>

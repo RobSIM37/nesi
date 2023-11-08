@@ -11,17 +11,20 @@ server.use(cors());
 
 const loginRegisterCtrl = require("./controllers/loginRegisterController");
 const friendCtrl = require("./controllers/friendController");
+const messageCtrl = require("./controllers/messageController");
 const authTokenMid = require("./middleware/authTokenMiddleware");
+const updateMid = require("./middleware/updateMiddleware")
 
 server.post("/login", loginRegisterCtrl.login);
 server.post("/register", loginRegisterCtrl.register);
 
 server.use(authTokenMid.validateToken);
 
+
 server.post("/refresh-token", loginRegisterCtrl.refreshAuthToken);
 
-server.get("/messages", ()=>{}) // get all pending messages
-server.post("/messages", ()=>{}) // send a message
+server.post("/messages", messageCtrl.sendMessage);
+server.put("/messages/:id", messageCtrl.updateMessage);
 
 server.get("/plans", ()=>{}) // get all user plans
 server.post("/plans", ()=>{}) // add/update user plan
@@ -31,7 +34,10 @@ server.post("/form", ()=>{}) // add/update a form
 server.post("/form/data", ()=>{}) // post form data
 
 server.get("/friends", friendCtrl.getFriends);
-server.get("/friend/:name", friendCtrl.getFriend);
-server.post("/friends", ()=>{}) // update user friends list
+server.get("/friends/:name", friendCtrl.getFriend);
+server.post("/friends", friendCtrl.addFriend);
+server.delete("/friends/:user-id/:friend-id", friendCtrl.deleteFriend);
+
+server.use(updateMid.updateFriendsAndMessages);
 
 server.listen(process.env.PORT, () => {console.log(`Server up and listening on port ${process.env.PORT}`);});
