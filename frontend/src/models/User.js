@@ -116,8 +116,8 @@ class User {
     async declineFriendRequest(messageId){
         return await this.#updateMessageStatus(messageId, DECLINED);
     }
-    async removeFriend(friendId){
-        return await this.#sendRequest("delete",`${currentUrl()}/friends/${friendId}`);
+    async removeFriend(relationshipId){
+        return await this.#sendRequest("delete",`${currentUrl()}/friends/${this.#id}/${relationshipId}`);
     }
 }
 

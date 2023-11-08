@@ -27,7 +27,7 @@ const FriendsManager = (props) => {
                         buttonType="remove"
                         key={Math.random()}
                         user={props.user}
-                        friend={relationship.friend}
+                        relationship={relationship}
                         tooltip={"Remove Friend"}
                     />
                     )}

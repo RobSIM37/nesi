@@ -20,7 +20,7 @@ module.exports = {
         next();
     },
     deleteFriend: async (req, res, next) => {
-        const result = await friendsServ.deleteFriend(req.params.id);
+        const result = await friendsServ.deleteFriend(req.params.userId, req.params.id);
         if (!result) res.status(500).send("error deleting friend");
         res.body.payload = result;
         next();

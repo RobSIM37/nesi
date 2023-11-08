@@ -1,5 +1,5 @@
 import { Button, Stack } from "@mui/material";
-import { FRIEND_REQUEST, USER_GENERATED } from "../../../consts/messages/messageTypes";
+import { DELETED_FRIEND, FRIEND_REQUEST, USER_GENERATED } from "../../../consts/messages/messageTypes";
 
 const MessageButtonSet = (props) => {
 
@@ -24,6 +24,7 @@ const MessageButtonSet = (props) => {
                     </>
                 )
             case USER_GENERATED:
+            case DELETED_FRIEND:
                 return (
                     <Button variant="contained" onClick={markButtonClickEventHandler}>Mark as Read</Button>
                 )
