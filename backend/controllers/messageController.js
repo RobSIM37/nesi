@@ -4,14 +4,13 @@ module.exports = {
     sendMessage: async (req, res, next) => {
         const result = await messageServ.sendMessage(req.body);
         if (!result) res.status(500).send("error with send message request");
-        res.body.payload = result
+        res.body.payload = result;
         next();
     },
     updateMessage: async (req, res, next) => {
-        const messageId = req.params.id;
-        const result = await messageServ.updateMessageStatus(messageId, req.body.status);
+        const result = await messageServ.updateMessageStatus(req.params.id, req.body.status);
         if (!result) res.status(500).send("error with update message request");
-        res.body.payload = result
+        res.body.payload = result;
         next();
     }
 }

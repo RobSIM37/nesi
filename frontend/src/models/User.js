@@ -1,5 +1,16 @@
 import axios from "axios";
-import { currentUrl } from "../consts/url";
+import { 
+    BACKGROUND_GET,
+    BACKGROUND_POST,
+    BACKGROUND_PUT,
+    BACKGROUND_DELETE,
+    DELETE,
+    GET,
+    POST,
+    PUT,
+    currentUrl,
+    typeBackground
+} from "../consts/url";
 import { friendRequestMessage } from "../consts/messages/friendRequest";
 import { FRIEND_REQUEST, USER_GENERATED } from "../consts/messages/messageTypes";
 import { DECLINED, READ, UNREAD } from "../consts/messages/messageStatus";
@@ -40,46 +51,64 @@ class User {
     }
     assignSetStateFunction(func){
         this.#setState = func;
+        this.#setState(this)
     }
-    updateState(){
+    #handleRequestResult(result){
+        this.#friends = result.data.friends;
+        this.#messages = result.data.messages;
         this.#setState(this.clone);
+
+        return result.data.payload;
     }
     async #sendRequest(type, url, payload){
         let result = null;
+        if (typeBackground(true,type)){
+            this.#setState(this.clone);
+        }
         try {
             switch (type) {
-                case "get":
+                case GET:
                     result = await axios.get(url);
                     break;
-                case "post":
+                case POST:
                     result = await axios.post(url, payload);
                     break;
-                case "put":
+                case PUT:
                     result = await axios.put(url, payload);
                     break;
-                case "delete":
+                case DELETE:
                     result = await axios.delete(url);
+                    break;
+                case BACKGROUND_GET:
+                    axios.get(url).then(res => this.#handleRequestResult(res));
+                    break;
+                case BACKGROUND_POST:
+                    axios.post(url, payload).then(res => this.#handleRequestResult(res));;
+                    break;
+                case BACKGROUND_PUT:
+                    axios.put(url, payload).then(res => this.#handleRequestResult(res));;
+                    break;
+                case BACKGROUND_DELETE:
+                    axios.delete(url).then(res => this.#handleRequestResult(res));;
                     break;
                 default:
                     return result;
             }
         } catch(err) {
             console.log(err);
-            return result
         }
-        this.#friends = result.data.friends;
-        this.#messages = result.data.messages;
-        this.updateState();
-
-        return result.data.payload;
+        if (typeBackground(false, type)) {
+            return this.#handleRequestResult(result);
+        }
     }
     async #updateMessageStatus(messageId, status){
-        return await this.#sendRequest("put",`${currentUrl()}/messages/${messageId}`,{
+        this.#messages = this.#messages.filter(message => message._id !== messageId);
+        this.#sendRequest(BACKGROUND_PUT,`${currentUrl()}/messages/${messageId}`,{
             status
         });
     }
     async sendMessage(toId, message){
-        return await this.#sendRequest("post",`${currentUrl()}/messages`, {
+        this.#sendRequest(BACKGROUND_POST,`${currentUrl()}/messages`, {
             to: toId,
             from: this.#id,
             fromName: this.#name,
@@ -90,13 +119,13 @@ class User {
         });
     }
     async markMessageAsRead(messageId){
-        return await this.#updateMessageStatus(messageId, READ);
+        this.#updateMessageStatus(messageId, READ);
     }
     async searchUsersForName(name){
-        return await this.#sendRequest("get",`${currentUrl()}/friends/${name}`);
+        return await this.#sendRequest(GET,`${currentUrl()}/friends/${name}`);
     }
     async sendFriendRequest(id){
-        return await this.#sendRequest("post",`${currentUrl()}/messages`, {
+        return await this.#sendRequest(POST,`${currentUrl()}/messages`, {
             to: id,
             from: this.#id,
             fromName: this.#name,
@@ -107,17 +136,18 @@ class User {
         });
     }
     async acceptFriendRequest(message){
-        return await this.#sendRequest("post",`${currentUrl()}/friends`, {
+        return await this.#sendRequest(POST,`${currentUrl()}/friends`, {
             messageId:message._id,
             friends:[
                 {id: message.to, userName: this.#name}, {id: message.from, userName: message.fromName}
             ]});
     }
     async declineFriendRequest(messageId){
-        return await this.#updateMessageStatus(messageId, DECLINED);
+        this.#updateMessageStatus(messageId, DECLINED);
     }
     async removeFriend(relationshipId){
-        return await this.#sendRequest("delete",`${currentUrl()}/friends/${this.#id}/${relationshipId}`);
+        this.#friends = this.#friends.filter(relationship => relationship.id !== relationshipId);
+        this.#sendRequest(BACKGROUND_DELETE,`${currentUrl()}/friends/${this.#id}/${relationshipId}`);
     }
 }
 

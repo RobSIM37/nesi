@@ -27,6 +27,7 @@ const LandingPage = (props) => {
                     props.initNewUser(res.data);
                 })
                 .catch(err=>{
+                    console.log("ERR:", err)
                     setLoginRegError("There was an issue with the provided user name & password.");
                 })
         }

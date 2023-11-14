@@ -5,7 +5,7 @@ const FormStateManagement = (props) => {
 
     const [formData, setFormData] = React.useState();
     
-    React.useEffect(()=>{
+    const initFormValues = ()=>{
         const initialValues = {};
         props.inputs.forEach(
             input=>{
@@ -20,7 +20,9 @@ const FormStateManagement = (props) => {
             }
         )
         setFormData(initialValues)
-    },[props.inputs])
+    }
+
+    React.useEffect(initFormValues,[props.inputs])
     
     const getInput = (dataKey) => {
         return props.inputs.filter(input=>input.dataKey === dataKey)[0]
@@ -81,7 +83,8 @@ const FormStateManagement = (props) => {
     }
 
     const submitButtonClickEventHandler = () => {
-        props.onSubmit(formData)
+        if (props.inputs.filter(input=>input.type === "button")[0].clearOnSubmit) initFormValues();
+        props.onSubmit(formData);
     }
 
     const connectedChildren = React.Children.map(props.children, child =>

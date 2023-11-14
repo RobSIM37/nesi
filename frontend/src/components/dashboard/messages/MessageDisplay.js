@@ -9,7 +9,7 @@ const MessageDisplay = (props) => {
             <UnderlinedBox>
                 <Typography p={1} variant="h5">{`From: ${props.message.senderName}`}</Typography>
             </UnderlinedBox>
-            <Typography p={1} variant="h6">{props.message.body}</Typography>
+            <Typography p={1} variant="h6" component="pre">{props.message.body}</Typography>
             <MessageButtonSet message={props.message} type={props.message.type} user={props.user}/>
         </PaddedCard>
     )
