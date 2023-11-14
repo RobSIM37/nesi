@@ -46,9 +46,8 @@ const FormStateManagement = (props) => {
         const dataInputs = props.inputs.filter(input=>input.dataKey);
         dataInputs.forEach(input => {
             if (formData[input.dataKey].errorMessage !== "") valid = false;
-        })
-        dataInputs.forEach(input=> {
             if (formData[input.dataKey].touched === false && input.required) valid = false;
+            if (!formData[input.dataKey] && input.required) valid = false;
         })
         return valid;
     }

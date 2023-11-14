@@ -6,6 +6,7 @@ import FormSelect from "./inputs/FormSelect"
 import FormCheckBox from "./inputs/FormCheckBox"
 import FormStatement from "./inputs/FormStatement"
 import FormRadioGroup from "./inputs/FormRadioGroup"
+import { BUTTON, CHECKBOX, NUMBER, PASSWORD, RADIO, SELECT, STATEMENT, TEXT } from "../../consts/form/inputTypes"
 
 const Form = (props) => {
 
@@ -14,35 +15,34 @@ const Form = (props) => {
     useEffect(()=>{
         const mappedInputs = props.inputs.map(input=>{
             switch (input.type) {
-                case "text":
+                case TEXT:
                     return <FormTextField
                                 key={Math.random()}
                                 dataKey={input.dataKey}
                                 label={input.label}
-                                required={input.required}
                                 multiline={input.multiline}
                                 minRows={input.minRows}
                                 maxRows={input.maxRows}
                             />
-                case "number":
+                case NUMBER:
                     return <FormTextField
                                 key={Math.random()}
-                                type={"number"}
+                                type={NUMBER}
                                 dataKey={input.dataKey}
                                 label={input.label}
                                 min={input.min}
                                 max={input.max}
                                 required={input.required}
                             />
-                case "password":
+                case PASSWORD:
                     return <FormTextField
                                 key={Math.random()}
-                                type={"password"}
+                                type={PASSWORD}
                                 dataKey={input.dataKey}
                                 label={input.label}
                                 required={input.required}
                             />
-                case "select":
+                case SELECT:
                     return <FormSelect
                                 key={Math.random()}
                                 dataKey={input.dataKey}
@@ -51,16 +51,16 @@ const Form = (props) => {
                                 required={input.required}
                                 menuItems={input.menuItems}
                             />
-                case "checkbox":
+                case CHECKBOX:
                     return <FormCheckBox key={Math.random()} dataKey={input.dataKey} label={input.label}/>
-                case "radio":
+                case RADIO:
                     return <FormRadioGroup key={Math.random()} dataKey={input.dataKey} label={input.label}
                         choices={input.choices}
                         width={props.width || 350}
                     />
-                case "button":
+                case BUTTON:
                     return <FormButton text={input.text} key={Math.random()}/>
-                case "statement":
+                case STATEMENT:
                     return <FormStatement key={Math.random()} statement={input.statement} width={props.width || 350}/>
                 default:
                     return <div key={Math.random()}/>
