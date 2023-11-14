@@ -13,6 +13,9 @@ const FormTextField = (props) => {
             onChange={(e)=>{props.form.reportChange(props.dataKey, e.target.value, props.min, props.max)}}
             onBlur={(e)=>{props.form.hasBeenTouched(props.dataKey, e.target.value)}}
             fullWidth={true}
+            multiline={props.multiline}
+            minRows={props.minRows}
+            maxRows={props.maxRows}
         />
     )
 }

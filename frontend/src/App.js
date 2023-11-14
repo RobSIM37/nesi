@@ -20,7 +20,6 @@ const App = () => {
         const newUser = new User(data);
         sessionStorage.setItem("nesiAuthToken", data.token);
         newUser.assignSetStateFunction(setUser);
-        newUser.updateState();
         navigate("/dashboard");
     }
 

@@ -20,6 +20,9 @@ const Form = (props) => {
                                 dataKey={input.dataKey}
                                 label={input.label}
                                 required={input.required}
+                                multiline={input.multiline}
+                                minRows={input.minRows}
+                                maxRows={input.maxRows}
                             />
                 case "number":
                     return <FormTextField

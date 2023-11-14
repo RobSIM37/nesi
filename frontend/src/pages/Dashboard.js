@@ -5,6 +5,7 @@ import FriendsManager from "../components/dashboard/friends/FriendsManager";
 import GreyTabPanel from "../components/GreyTabPanel";
 import UnderlinedBox from "../components/UnderlinedBox";
 import MessageLayout from "../components/dashboard/messages/MessageLayout";
+import FormBuilder from "../components/dashboard/formBuilder/FormBuilder";
 
 const Dashboard = (props) => {
 
@@ -36,7 +37,7 @@ const Dashboard = (props) => {
                     <Typography>Plans</Typography>   
                 </GreyTabPanel>
                 <GreyTabPanel value="forms">
-                    <Typography>Form Builder</Typography>   
+                    <FormBuilder user={props.user}/>
                 </GreyTabPanel>
                 <GreyTabPanel value="progress">
                     <Typography>Progress</Typography>   
