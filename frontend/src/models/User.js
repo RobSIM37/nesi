@@ -149,6 +149,9 @@ class User {
         this.#friends = this.#friends.filter(relationship => relationship.id !== relationshipId);
         this.#sendRequest(BACKGROUND_DELETE,`${currentUrl()}/friends/${this.#id}/${relationshipId}`);
     }
+    async submitForm(form){
+        console.log("Form:", form);
+    }
 }
 
 export default User;
