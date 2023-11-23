@@ -15,19 +15,19 @@ const Wrapper = (props) => {
     const deleteItemClickEventHandler = () => {
         props.deleteItem(props.index);
     }
-    const wrapperSelectedClickEventHandler = () => {
+    const wrapperSelectedMouseOverEventHandler = () => {
         props.selectItem(props.index);
     }
     const generateIndicatorColor = () => {
-        if (props.index === props.currentSelectedIndex) return "info.main";
-        if (!props.valid) return "warning.main";
-        return "primary.main"
+        if (props.index === props.currentSelectedIndex) return "info";
+        if (!props.valid) return "warning";
+        return "primary"
     }
     
     return (
-        <Box onClick={wrapperSelectedClickEventHandler}>
+        <Box onMouseEnter={wrapperSelectedMouseOverEventHandler}>
             <Stack direction={"row"}>
-                <Box bgcolor={generateIndicatorColor()} width={"20px"}/>
+                <Box borderColor={generateIndicatorColor()} width={"20px"}/>
                 {props.content}
                 {props.index === props.currentSelectedIndex &&
                 <>

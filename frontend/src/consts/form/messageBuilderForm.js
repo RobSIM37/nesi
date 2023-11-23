@@ -1,4 +1,10 @@
+import { mustNotBeBlankFactory } from "./validationFunctions";
+import { TEXT, BUTTON } from "./inputTypes";
+
 export const messageBuilderFormInputs = [
-    { type: "text", dataKey: "body", label: "Message", default: "", required: true, multiline: true, minRows: 3},
-    { type: "button", text: "Send", clearOnSubmit: true }
+    { type: TEXT, dataKey: "body", label: "Message", default: "", required: true, multiline: true, minRows: 3,
+    validationFunctions: [
+        mustNotBeBlankFactory("The message body can not be blank")
+    ]},
+    { type: BUTTON, text: "Send", clearOnSubmit: true }
 ]

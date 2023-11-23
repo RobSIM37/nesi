@@ -1,6 +1,7 @@
 import { Stack, Typography } from "@mui/material";
 import PaddedCard from "../../PaddedCard";
 import Form from "../../form/Form";
+import FormLayout from "../../form/FormLayout";
 import { messageBuilderFormInputs } from "../../../consts/form/messageBuilderForm";
 import FriendSearch from "../friends/FriendSearch";
 
@@ -15,24 +16,27 @@ const MessageBuilder = (props) => {
             {props.user.friends.length !== 0 ?
             <Stack p={1}>
                 <Typography variant="h5">Message Builder</Typography>
-                <Form
-                    inputs={[
-                        { type: "select",
-                            dataKey: "to",
-                            label: "To:",
-                            menuItems: props.user.friends.map(
-                                relationship => {
-                                    return {value:relationship.friend.id,
-                                            label:relationship.friend.userName}
-                                }
-                            ), 
-                            required: true,
-                            default: ""
-                        },
-                        ...messageBuilderFormInputs
-                    ]}
-                    onSubmit={messageBuilderFormSubmitEventHandler}
-                />
+                <FormLayout>
+                    <Form
+                        inputs={[
+                            { type: "select",
+                                dataKey: "to",
+                                label: "To:",
+                                options: props.user.friends.map(
+                                    relationship => {
+                                        return {value:relationship.friend.id,
+                                                label:relationship.friend.userName}
+                                    }
+                                ), 
+                                required: true,
+                                default: ""
+                            },
+                            ...messageBuilderFormInputs
+                        ]}
+                        onSubmit={messageBuilderFormSubmitEventHandler}
+                    />    
+                </FormLayout>
+                
             </Stack>
                 :
             <Stack alignItems={"center"} p={1} spacing={2}>

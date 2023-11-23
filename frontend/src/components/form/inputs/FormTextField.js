@@ -16,6 +16,7 @@ const FormTextField = (props) => {
             multiline={props.multiline}
             minRows={props.minRows}
             maxRows={props.maxRows}
+            disabled={props.disabled}
         />
     )
 }

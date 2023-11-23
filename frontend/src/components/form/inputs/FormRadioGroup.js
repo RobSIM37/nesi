@@ -19,10 +19,17 @@ const FormRadioGroup = (props) => {
             onChange={(e) => {
               props.form.reportChange(props.dataKey, e.target.value);
             }}
+            disabled={props.disabled}
           >
             <Box width={props.width}>
-              {props.choices.map(choice=>
-                <FormControlLabel key={Math.random()} value={choice.value} label={choice.label} control={<Radio />}/>
+              {props.options.map(choice=>
+                <FormControlLabel
+                  key={Math.random()}
+                  value={choice.value}
+                  label={choice.label}
+                  control={<Radio />}
+                  disabled={props.disabled}
+                />
               )}
             </Box>
           </RadioGroup>

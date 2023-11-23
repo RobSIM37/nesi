@@ -1,0 +1,1 @@
+export const rndNum = cap => Math.floor(Math.random()*cap);
