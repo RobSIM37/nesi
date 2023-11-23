@@ -38,3 +38,11 @@ export const containsCharacterInSetFactory = (must, set, errorMessage) => {
         return result;
     }
 }
+
+export const mustNotBeBlankFactory = (errorMessage) => {
+    return (value) => {
+        if (!value) return errorMessage;
+        if (value.trim() === "") return errorMessage;
+        return null;
+    }
+}

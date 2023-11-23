@@ -1,11 +1,11 @@
 import React from "react"
-import FormLayout from "./FormLayout";
 
 const FormStateManagement = (props) => {
 
     const [formData, setFormData] = React.useState();
     
     const initFormValues = ()=>{
+        console.log("inputs:", props.inputs)
         const initialValues = {};
         props.inputs.forEach(
             input=>{
@@ -69,6 +69,7 @@ const FormStateManagement = (props) => {
         if (currentErrorMessage === "") {
             updatedData[dataKey].touched = true;
         }
+        if (props.autoSubmit) props.autoSubmit(updatedData);
         setFormData(()=>updatedData);
     }
 
@@ -107,11 +108,8 @@ const FormStateManagement = (props) => {
         }
     )
 
-    return (
-        <FormLayout width={props.width}>
-            {connectedChildren}
-        </FormLayout>
-    )
+    return (connectedChildren)
+    
 }
 
 export default FormStateManagement

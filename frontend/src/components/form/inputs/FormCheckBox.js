@@ -16,6 +16,7 @@ const FormCheckBox = (props) => {
           onChange={(e) => {
             props.form.reportChange(props.dataKey, e.target.checked);
           }}
+          disabled={props.disabled}
         />
       </Stack>
   );

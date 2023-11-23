@@ -7,6 +7,7 @@ import nesi from "../resources/nesi.png";
 import Form from "../components/form/Form";
 import { loginInputs } from "../consts/form/loginForm";
 import GreyTabPanel from "../components/GreyTabPanel";
+import FormLayout from "../components/form/FormLayout";
 
 const LandingPage = (props) => {
 
@@ -57,19 +58,22 @@ const LandingPage = (props) => {
                     </Box>
                     <GreyTabPanel value="login">
                         <Typography>Login</Typography>
-                        <Form
-                            width={400}
-                            inputs={[...loginInputs,{ type: "button", text: "Login" }]}
-                            onSubmit={formSubmitHandlerFactory("login")}
-                        />  
+                        <FormLayout width={400}>
+                            <Form
+                                
+                                inputs={[...loginInputs,{ type: "button", text: "Login" }]}
+                                onSubmit={formSubmitHandlerFactory("login")}
+                            />
+                        </FormLayout>
                     </GreyTabPanel>
                     <GreyTabPanel value="register">
                         <Typography>Create an Account</Typography>
-                        <Form
-                            width={400}
-                            inputs={[...loginInputs,{ type: "button", text: "Create" }]}
-                            onSubmit={formSubmitHandlerFactory("register")}
-                        />
+                        <FormLayout width={400}>
+                            <Form
+                                inputs={[...loginInputs,{ type: "button", text: "Create" }]}
+                                onSubmit={formSubmitHandlerFactory("register")}
+                            />
+                        </FormLayout>
                     </GreyTabPanel>
                 </TabContext>
             </Stack>

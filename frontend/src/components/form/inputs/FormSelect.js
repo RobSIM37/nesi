@@ -14,8 +14,9 @@ const FormSelect = (props) => {
                 select
                 value={props.form.data}
                 onChange={selectChangeEventHandler}
+                disabled={props.disabled}
             >
-                {props.menuItems.map(item=>
+                {props.options.map(item=>
                 <MenuItem
                     key={Math.random()}
                     value={item.value}
