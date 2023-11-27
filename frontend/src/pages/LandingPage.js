@@ -6,7 +6,7 @@ import { currentUrl } from "../consts/url";
 import nesi from "../resources/nesi.png";
 import Form from "../components/form/Form";
 import { loginInputs } from "../consts/form/loginForm";
-import GreyTabPanel from "../components/GreyTabPanel";
+import GreyTabPanel from "../components/styled/GreyTabPanel";
 import FormLayout from "../components/form/FormLayout";
 
 const LandingPage = (props) => {
@@ -24,7 +24,8 @@ const LandingPage = (props) => {
                 .post(`${currentUrl()}/${endpoint}`, {userName:data.userName.value, password:data.password.value})
                 .then(res=>{
                     setLoginRegError(null);
-                    sessionStorage.setItem("nesiAuthPassword",data.password);
+                    sessionStorage.setItem("nesiUser", JSON.stringify(res.data));
+                    localStorage.setItem("nesiPassword", data.password.value);
                     props.initNewUser(res.data);
                 })
                 .catch(err=>{
@@ -56,7 +57,7 @@ const LandingPage = (props) => {
                             <Tab label="Create an Account" value="register" />
                         </TabList>
                     </Box>
-                    <GreyTabPanel value="login">
+                    <GreyTabPanel value="login" alignItems={"center"}>
                         <Typography>Login</Typography>
                         <FormLayout width={400}>
                             <Form
@@ -66,7 +67,7 @@ const LandingPage = (props) => {
                             />
                         </FormLayout>
                     </GreyTabPanel>
-                    <GreyTabPanel value="register">
+                    <GreyTabPanel value="register" alignItems={"center"}>
                         <Typography>Create an Account</Typography>
                         <FormLayout width={400}>
                             <Form

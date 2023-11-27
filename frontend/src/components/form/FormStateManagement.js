@@ -5,7 +5,6 @@ const FormStateManagement = (props) => {
     const [formData, setFormData] = React.useState();
     
     const initFormValues = ()=>{
-        console.log("inputs:", props.inputs)
         const initialValues = {};
         props.inputs.forEach(
             input=>{
@@ -28,7 +27,7 @@ const FormStateManagement = (props) => {
         return props.inputs.filter(input=>input.dataKey === dataKey)[0]
     }
 
-    const generateErrorMessage = (value, validationFunctionsArr) => {
+    const generateErrorMessage = (value, validationFunctionsArr, required) => {
         const errorMessagesArr = [];
         if (!validationFunctionsArr) return "";
         validationFunctionsArr.forEach(func=>{
@@ -37,6 +36,7 @@ const FormStateManagement = (props) => {
                 errorMessagesArr.push(error);
             }
         })
+        if (required && value === "") errorMessagesArr.push("This may not be left blank.")
         const errorMessage = errorMessagesArr.join(" ");
         return errorMessagesArr.length === 0 ? "" : errorMessage;
     }
@@ -52,18 +52,21 @@ const FormStateManagement = (props) => {
         return valid;
     }
 
-    const reportChange = (dataKey, value, min, max) => {
+    const reportChange = (dataKey, value, min, max, includeMin, includeMax) => {
+        console.log("dataKey:", dataKey)
+        console.log("value:", value)
+        const input = getInput(dataKey);
         let containedValue = value
-        if (min!==undefined && min!==null) {
+        if (includeMin && min!==undefined && min!==null) {
             containedValue = Math.max(containedValue, min);
         }
-        if (max!==undefined && max!==null) {
+        if (includeMax && max!==undefined && max!==null) {
             containedValue = Math.min(containedValue, max);
         }
         const updatedData = {...formData};
         updatedData[dataKey].value = containedValue;
         const currentErrorMessage = generateErrorMessage(
-            containedValue, getInput(dataKey).validationFunctions
+            containedValue, input.validationFunctions, input.required
         )
         updatedData[dataKey].errorMessage = currentErrorMessage;
         if (currentErrorMessage === "") {
@@ -74,10 +77,11 @@ const FormStateManagement = (props) => {
     }
 
     const hasBeenTouched = (dataKey, value) => {
+        const input = getInput(dataKey);
         const updatedData = {...formData};
         updatedData[dataKey].touched = true;
         updatedData[dataKey].errorMessage = generateErrorMessage(
-            value, getInput(dataKey).validationFunctions
+            value, input.validationFunctions, input.required
         )
         setFormData(()=>updatedData);
     }

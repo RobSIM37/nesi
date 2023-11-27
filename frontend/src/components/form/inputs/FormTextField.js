@@ -10,7 +10,14 @@ const FormTextField = (props) => {
             error={props.form.errorMessage !== ""}
             helperText={props.form.errorMessage}
             required={props.required}
-            onChange={(e)=>{props.form.reportChange(props.dataKey, e.target.value, props.min, props.max)}}
+            onChange={
+                (e)=>{props.form.reportChange(
+                    props.dataKey,
+                    e.target.value,
+                    props.min, props.max,
+                    props.includeMin,
+                    props.includeMax
+                )}}
             onBlur={(e)=>{props.form.hasBeenTouched(props.dataKey, e.target.value)}}
             fullWidth={true}
             multiline={props.multiline}

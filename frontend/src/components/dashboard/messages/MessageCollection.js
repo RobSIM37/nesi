@@ -1,5 +1,5 @@
 import { Stack, Typography } from "@mui/material";
-import PaddedCard from "../../PaddedCard";
+import PaddedCard from "../../styled/PaddedCard";
 import MessageDisplay from "./MessageDisplay";
 
 const MessageCollection = (props) => {

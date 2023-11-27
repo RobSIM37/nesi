@@ -1,6 +1,6 @@
 import { Typography } from "@mui/material";
-import UnderlinedBox from "../../UnderlinedBox";
-import PaddedCard from "../../PaddedCard";
+import UnderlinedBox from "../../styled/UnderlinedBox";
+import PaddedCard from "../../styled/PaddedCard";
 import MessageButtonSet from "./MessageButtonSet";
 
 const MessageDisplay = (props) => {

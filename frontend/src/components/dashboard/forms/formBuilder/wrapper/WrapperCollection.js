@@ -9,8 +9,7 @@ const WrapperCollection = (props) => {
       if (
         (direction === -1 && index === 0) ||
         (direction === 1 && index === updatedCollection.length - 1)
-      )
-        return;
+      ) return;
       const temp = updatedCollection[index + direction];
       updatedCollection[index + direction] = updatedCollection[index];
       updatedCollection[index] = temp;
@@ -28,12 +27,13 @@ const WrapperCollection = (props) => {
   };
 
   return (
-    <Stack width={"100%"}>
+    <Stack width={"100%"} spacing={1} p={1}>
+      {props.addControl}
       {props.collection.map((item, index) => (
         <Wrapper
           key={Math.random()}
           valid={item.valid}
-          content={item.content}
+          content={props.generateContent(item)}
           index={index}
           currentSelectedIndex={props.currentSelectedIndex}
           moveItemUp={moveItemFactory(-1)}
@@ -42,7 +42,6 @@ const WrapperCollection = (props) => {
           selectItem={selectItem}
         />
       ))}
-      {props.addControl}
     </Stack>
   );
 };

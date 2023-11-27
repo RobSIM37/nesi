@@ -1,5 +1,5 @@
-import Form from "../../form/Form";
-import FormLayout from "../../form/FormLayout";
+import Form from "../../../form/Form";
+import FormLayout from "../../../form/FormLayout";
 import { useEffect, useState } from "react";
 import {
   STATEMENT,
@@ -8,10 +8,9 @@ import {
   CHECKBOX,
   RADIO,
   SELECT,
-} from "../../../consts/form/inputTypes";
-import { mustNotBeBlankFactory } from "../../../consts/form/validationFunctions";
+} from "../../../../consts/form/inputTypes";
 import { Stack } from "@mui/material";
-import WrapperCollection from "../../wrapper/WrapperCollection";
+import WrapperCollection from "./wrapper/WrapperCollection";
 import AddOptions from "./addControls/AddOptions";
 
 const InputEditor = (props) => {
@@ -26,26 +25,14 @@ const InputEditor = (props) => {
         label: "Label",
         dataKey: "label",
         default: props.input.label,
-        required: true,
-        validationFunctions: [
-          mustNotBeBlankFactory("Label can not be left blank."),
-        ],
+        required: true
       });
       inputFormObjs.push({
         type: TEXT,
         label: "Data Key",
         dataKey: "dataKey",
         default: props.input.dataKey,
-        required: true,
-        validationFunctions: [
-          mustNotBeBlankFactory("Data Key can not be left blank."),
-        ],
-      });
-      inputFormObjs.push({
-        type: TEXT,
-        label: "Default Value",
-        dataKey: "default",
-        default: props.input.default,
+        required: true
       });
       inputFormObjs.push({
         type: CHECKBOX,
@@ -55,6 +42,12 @@ const InputEditor = (props) => {
       });
     }
     if (props.input.type === TEXT) {
+      inputFormObjs.push({
+        type: TEXT,
+        label: "Default Value",
+        dataKey: "default",
+        default: props.input.default,
+      });
       inputFormObjs.push({
         type: CHECKBOX,
         label: "Multi-Line Input:",
@@ -66,10 +59,7 @@ const InputEditor = (props) => {
         label: "Minimum Number of Rows:",
         dataKey: "minRows",
         default: props.input.minRows,
-        required: true,
-        validationFunctions: [
-          mustNotBeBlankFactory("Minimum Rows can not be left blank."),
-        ],
+        required: true
       });
       inputFormObjs.push({
         type: NUMBER,
@@ -81,9 +71,27 @@ const InputEditor = (props) => {
     if (props.input.type === NUMBER) {
       inputFormObjs.push({
         type: NUMBER,
+        label: "Default Value",
+        dataKey: "default",
+        default: props.input.default,
+      });
+      inputFormObjs.push({
+        type: CHECKBOX,
+        label: "Include Minimum Value:",
+        dataKey: "includeMin",
+        default: props.input.includeMin,
+      });
+      inputFormObjs.push({
+        type: NUMBER,
         label: "Minimum:",
         dataKey: "min",
         default: props.input.min,
+      });
+      inputFormObjs.push({
+        type: CHECKBOX,
+        label: "Include Maximum Value:",
+        dataKey: "includeMax",
+        default: props.input.includeMax,
       });
       inputFormObjs.push({
         type: NUMBER,
@@ -92,21 +100,32 @@ const InputEditor = (props) => {
         default: props.input.max,
       });
     }
+    if (props.input.type === CHECKBOX) {
+      inputFormObjs.push({
+        type: CHECKBOX,
+        label: "Default Value",
+        dataKey: "default",
+        default: props.input.default,
+      });
+    }
     if (props.input.type === STATEMENT) {
       inputFormObjs.push({
         type: TEXT,
         label: "Statement Text",
         dataKey: "statement",
         default: props.input.statement,
-        required: true,
-        validationFunctions: [
-          mustNotBeBlankFactory("Statement Text can not be left blank."),
-        ],
+        required: true
       });
     }
     setInputFormControls(inputFormObjs);
   }, [props.input]);
 
+  const generateOptionContent = (option) => {
+    return (<Form
+      inputs={buildOptionsInputs(option)}
+      autoSubmit={props.autoSubmit}
+    />)
+  }
   const selectItem = (index) => {
     setCurrentInputIndex(index);
   };
@@ -136,34 +155,28 @@ const InputEditor = (props) => {
     ];
   };
 
-  return (<>
-    {inputFormControls ?
-    <Stack>
-      <FormLayout width={400}>
-        <Form inputs={inputFormControls} autoSubmit={props.autoSubmit} />
-      </FormLayout>
-      {(props.input.type === RADIO || props.input.type === SELECT) && (
-        <WrapperCollection
-          collection={props.input.options.map((option) => {
-            return {
-              valid: option.valid,
-              content: (
-                <Form
-                  inputs={buildOptionsInputs(option)}
-                  autoSubmit={props.autoSubmit}
-                />
-              ),
-            };
-          })}
-          currentSelectedIndex={currentInputIndex}
-          reportCollectionChange={props.reportCollectionChange}
-          reportIndexChange={selectItem}
-          addControl={<AddOptions title={"Add Option"} addOption={addOption} />}
-        />
-      )}
-    </Stack>
-        :
-    <></>}</>
+  return (
+    <>
+      {inputFormControls && 
+        <Stack>
+          <FormLayout width={400}>
+            <Form inputs={inputFormControls} autoSubmit={props.autoSubmit} />
+          </FormLayout>
+          {(props.input.type === RADIO || props.input.type === SELECT) && (
+            <WrapperCollection
+              collection={props.input.options}
+              generateContent={generateOptionContent}
+              currentSelectedIndex={currentInputIndex}
+              reportCollectionChange={props.reportCollectionChange}
+              reportIndexChange={selectItem}
+              addControl={
+                <AddOptions title={"Add Option"} addOption={addOption} />
+              }
+            />
+          )}
+        </Stack>
+      }
+    </>
   );
 };
 

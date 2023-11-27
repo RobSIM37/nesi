@@ -1,5 +1,5 @@
 import { Stack, Typography } from "@mui/material";
-import PaddedCard from "../../PaddedCard";
+import PaddedCard from "../../styled/PaddedCard";
 import Form from "../../form/Form";
 import FormLayout from "../../form/FormLayout";
 import { messageBuilderFormInputs } from "../../../consts/form/messageBuilderForm";

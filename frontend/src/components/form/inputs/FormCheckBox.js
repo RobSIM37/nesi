@@ -8,7 +8,7 @@ const FormCheckBox = (props) => {
         justifyContent={"space-between"}
         width={"100%"}
       >
-        <Box width={120}>
+        <Box width={"auto"}>
           <Typography ml={1}>{props.label}</Typography>
         </Box>
         <Checkbox
