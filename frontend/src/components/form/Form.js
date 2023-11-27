@@ -33,7 +33,9 @@ const Form = (props) => {
                                 type={NUMBER}
                                 dataKey={input.dataKey}
                                 label={input.label}
+                                includeMin={input.includeMin}
                                 min={input.min}
+                                includeMax={input.includeMax}
                                 max={input.max}
                                 required={input.required}
                                 disabled={input.disabled}
@@ -91,7 +93,7 @@ const Form = (props) => {
         })
         setInputs(mappedInputs);
     }, [props.inputs, props.width, props.min, props.max])
-    
+
     return (
         <FormStateManagement
             onSubmit={props.onSubmit}

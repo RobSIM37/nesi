@@ -54,6 +54,7 @@ class User {
         this.#setState(this)
     }
     #handleRequestResult(result){
+        sessionStorage.setItem("nesiUser", JSON.stringify(result.data));
         this.#friends = result.data.friends;
         this.#messages = result.data.messages;
         this.#setState(this.clone);

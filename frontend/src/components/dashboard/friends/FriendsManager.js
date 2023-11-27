@@ -1,8 +1,8 @@
 import { Stack, Typography} from "@mui/material";
-import PaddedCard from "../../PaddedCard";
+import PaddedCard from "../../styled/PaddedCard";
 import FriendsLabel from "./FriendsLabel";
 import sadNesi from "../../../resources/sadNesi.png";
-import UnderlinedBox from "../../UnderlinedBox";
+import UnderlinedBox from "../../styled/UnderlinedBox";
 import FriendSearch from "./FriendSearch";
 
 const FriendsManager = (props) => {
